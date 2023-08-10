@@ -5,3 +5,22 @@ run test: npx playwright test
 to see something: 
 playwright.config.ts
 line 29: headless: false
+
+
+npx playwright test
+    Runs the end-to-end tests
+
+npx playwright test --ui
+    Starts the interactive UI mode
+
+npx playwright test --project=chromium
+    Runs the tests only on Desktop Chrome
+
+npx playwright test exmaple
+    Runs the test in a specific file
+
+npx playwright test --debug
+    Runs teh test in debug mode
+
+npx playwright codegen
+    Auto generate test with Codegen (your action will be recorded and you can copy the code)
