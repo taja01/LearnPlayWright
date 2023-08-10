@@ -1,0 +1,10 @@
+Test case #1: Opening https://www.epam.com/ page
+Navigate to https://www.epam.com/
+Check the page title
+
+Test case #2: Opening of burger menu
+Navigate to https://www.epam.com/
+Click Hamburger Menu button
+Check that Hamburger Menu is opened
+
+What we learn: file name.. XY.spect.ts
