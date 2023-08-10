@@ -1,0 +1,7 @@
+init: npm init playwright@latest
+
+run test: npx playwright test
+
+to see something: 
+playwright.config.ts
+line 29: headless: false
