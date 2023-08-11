@@ -1,0 +1,451 @@
+{
+  "cookies": [
+    {
+      "name": "route",
+      "value": "6fd7227553d42fc78880da5f3932eef9",
+      "domain": "www.epam.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "renderid",
+      "value": "publisher1",
+      "domain": "www.epam.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.586141440.1691788166",
+      "domain": ".epam.com",
+      "path": "/",
+      "expires": 1699564166,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "JJ4Ac-h_Oi1gCNk6T",
+      "value": "",
+      "domain": "www.epam.com",
+      "path": "/",
+      "expires": 1691791766,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "JJ4MiCzJcrhQ4",
+      "value": "",
+      "domain": "www.epam.com",
+      "path": "/",
+      "expires": 1691791766,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "JJ4MiCzKSoc",
+      "value": "",
+      "domain": "www.epam.com",
+      "path": "/",
+      "expires": 1691791766,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "JJ4MiCzDSaYiA",
+      "value": "",
+      "domain": "www.epam.com",
+      "path": "/",
+      "expires": 1691791766,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "JJTdk-R",
+      "value": "d7142c1f-2e67-408e-bba7-dc272814649c",
+      "domain": "www.epam.com",
+      "path": "/",
+      "expires": 1726348166.618978,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "JJTdkLW6",
+      "value": "bcd2cc54-80c8-4fc9-a822-a4bf9fbcd67a",
+      "domain": "www.epam.com",
+      "path": "/",
+      "expires": 1691791766,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_EYGYLWSTX2",
+      "value": "GS1.1.1691788166.1.0.1691788166.60.0.0",
+      "domain": ".epam.com",
+      "path": "/",
+      "expires": 1726348166.766045,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "li_sugr",
+      "value": "f517a6ef-e9a6-4170-a4ed-0cdf3cc8a1df",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1699564166.979561,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&7e315015-5678-436e-8f5f-5b2914d37254\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1723324166.979663,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=2630:u=1:x=1:i=1691788166:t=1691874566:v=2:sig=AQEKnRrFKK1ybNUUp8I5k6LIoPaoKhvO\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1691874566.795009,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_uetsid",
+      "value": "5ab45280388b11eeb5a9a737c4dd9127",
+      "domain": ".epam.com",
+      "path": "/",
+      "expires": 1691874566,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "5ab4c160388b11eeaecfd363b29ec3db",
+      "domain": ".epam.com",
+      "path": "/",
+      "expires": 1725484166,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ln_or",
+      "value": "eyI0MjI3OCI6ImQifQ%3D%3D",
+      "domain": "www.epam.com",
+      "path": "/",
+      "expires": 1691874566,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "MUID",
+      "value": "30016FFDB688658A1ECC7C97B79564EB",
+      "domain": ".bing.com",
+      "path": "/",
+      "expires": 1725484169.016353,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1244016789.1691788167",
+      "domain": ".epam.com",
+      "path": "/",
+      "expires": 1726348166.897723,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1831290089.1691788167",
+      "domain": ".epam.com",
+      "path": "/",
+      "expires": 1691874566,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-155540-2",
+      "value": "1",
+      "domain": ".epam.com",
+      "path": "/",
+      "expires": 1691788226,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSessionUser_1638007",
+      "value": "eyJpZCI6ImMwMTllZjY4LTRlZWItNTMwNy1iNzYzLWYwNTY2Y2ZjYzIxMyIsImNyZWF0ZWQiOjE2OTE3ODgxNjY5NDYsImV4aXN0aW5nIjpmYWxzZX0=",
+      "domain": ".epam.com",
+      "path": "/",
+      "expires": 1723324166,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjFirstSeen",
+      "value": "1",
+      "domain": ".epam.com",
+      "path": "/",
+      "expires": 1691789966,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjIncludedInSessionSample_1638007",
+      "value": "0",
+      "domain": ".epam.com",
+      "path": "/",
+      "expires": 1691788286,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSession_1638007",
+      "value": "eyJpZCI6IjA1ZWYxN2I1LTM2OTQtNGZjNS05MDhkLWU3Yjk5NWJkYjhhNSIsImNyZWF0ZWQiOjE2OTE3ODgxNjY5NjQsImluU2FtcGxlIjpmYWxzZX0=",
+      "domain": ".epam.com",
+      "path": "/",
+      "expires": 1691789966,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjAbsoluteSessionInProgress",
+      "value": "0",
+      "domain": ".epam.com",
+      "path": "/",
+      "expires": 1691789966,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_mkto_trk",
+      "value": "id:030-GZP-996&token:_mch-epam.com-1691788166974-19077",
+      "domain": ".epam.com",
+      "path": "/",
+      "expires": 1726348166.975259,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "UserMatchHistory",
+      "value": "AQKHHcHgMBjAsgAAAYnmbscts0ZmU_7_Oqb45wnJXttw9b0oPwPXJbOsWepMqlDgDvGl_ZKcf8Bmwg",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1694380166.979623,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AnalyticsSyncHistory",
+      "value": "AQJfzijisPXuTQAAAYnmbsctHOjwMZdL9FKzKgXpQkEQquWfIfwdG3sPuF_4JXA2fIoRQ8J74MY0PG7WJ1Fc4A",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1694380166.979645,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1691788167022.617266732",
+      "domain": ".epam.com",
+      "path": "/",
+      "expires": 1699564169,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bscookie",
+      "value": "\"v=1&20230811210927ed32f0e0-6b55-4656-8f11-c5a715181c39AQEoWDlpNxSh9MEFq2cD5gBlQJNlD9U0\"",
+      "domain": ".www.linkedin.com",
+      "path": "/",
+      "expires": 1723324168.17666,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "li_gc",
+      "value": "MTswOzE2OTE3ODgxNjc7MjswMjH6oApW6FARE/1CbSlJbT2TdaOvTYM/WfYv6t5gXlFMnQ==",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1707340168.176873,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "fd0ae80814ee4096a6c802799d9b314f.20230811.20240810",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1723324167.314289,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "9bglw4|2|fe2|0|1318",
+      "domain": ".epam.com",
+      "path": "/",
+      "expires": 1723324167,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1692392969.016428,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SRM_B",
+      "value": "30016FFDB688658A1ECC7C97B79564EB",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1725484169.016453,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SM",
+      "value": "C",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "30016FFDB688658A1ECC7C97B79564EB",
+      "domain": ".clarity.ms",
+      "path": "/",
+      "expires": 1725484169.058553,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1692392969.058591,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ANONCHK",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1691788769.058614,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clsk",
+      "value": "1tq6xmq|1691788168338|1|1|p.clarity.ms/collect",
+      "domain": ".epam.com",
+      "path": "/",
+      "expires": 1691874568,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "OptanonAlertBoxClosed",
+      "value": "2023-08-11T21:09:28.808Z",
+      "domain": ".www.epam.com",
+      "path": "/",
+      "expires": 1723324168,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "OptanonConsent",
+      "value": "isGpcEnabled=0&datestamp=Fri+Aug+11+2023+23%3A09%3A28+GMT%2B0200+(Central+European+Summer+Time)&version=6.36.0&isIABGlobal=false&hosts=&consentId=ccca81e6-695b-4993-9037-ece26981e87b&interactionCount=1&landingPath=NotLandingPage&groups=C0001%3A1%2CC0002%3A1%2CC0003%3A1%2CC0004%3A1%2CC0005%3A1&iType=1",
+      "domain": ".www.epam.com",
+      "path": "/",
+      "expires": 1723324168,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.epam.com",
+      "localStorage": [
+        {
+          "name": "_uetsid_exp",
+          "value": "Sat, 12 Aug 2023 21:09:26 GMT"
+        },
+        {
+          "name": "ContextHubPersistence",
+          "value": "{\"store\":{\"surferinfo\":{\"display\":{\"resolution\":{\"width\":1280.0000190734863,\"height\":720.0000107288361},\"devicePixelRatio\":1.0000000149011612,\"colorDepth\":24,\"nrOfColors\":16777216,\"pixelsPerInch\":0,\"orientation\":{\"mode\":\"landscape\",\"direction\":\"normal\"}},\"window\":{\"dimension\":{\"width\":1280.0000190734863,\"height\":720.0000107288361},\"percentageUsage\":1},\"browser\":{\"version\":\"115.0.5790.75\",\"family\":\"Chrome\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.5790.75 Safari/537.36\"},\"device\":{\"category\":\"Desktop\",\"type\":\"windows\"},\"isMobile\":true,\"os\":{\"name\":\"Windows\",\"version\":\"10\"},\"year\":2023,\"month\":8,\"day\":11,\"hour\":23,\"minutes\":9},\"emulators\":{\"devices\":[{\"id\":\"native\",\"title\":\"Native\",\"type\":\"screen\",\"width\":1280,\"height\":720,\"orientation\":\"Landscape\",\"platform\":\"Windows\",\"platformVersion\":\"10\",\"canRotate\":false},{\"id\":\"ipad\",\"title\":\"iPad\",\"type\":\"tablet\",\"platform\":\"iOS\",\"platformVersion\":\"5.1.1\",\"width\":768,\"height\":1024,\"canRotate\":true,\"orientation\":\"Portrait\",\"device-pixel-ratio\":1},{\"id\":\"ipad-2\",\"title\":\"iPad 2\",\"type\":\"tablet\",\"platform\":\"iOS\",\"platformVersion\":\"8.1.3\",\"width\":768,\"height\":1024,\"canRotate\":true,\"orientation\":\"Portrait\",\"device-pixel-ratio\":1},{\"id\":\"ipad-3\",\"title\":\"iPad 3 / 4 / Air\",\"type\":\"tablet\",\"platform\":\"iOS\",\"platformVersion\":\"8.1.3\",\"width\":1536,\"height\":2048,\"canRotate\":true,\"orientation\":\"Portrait\",\"device-pixel-ratio\":2},{\"id\":\"iphone-4\",\"title\":\"iPhone 4\",\"type\":\"mobile\",\"platform\":\"iOS\",\"platformVersion\":\"7.1.2\",\"width\":640,\"height\":960,\"canRotate\":true,\"orientation\":\"Portrait\",\"device-pixel-ratio\":2},{\"id\":\"iphone-5\",\"title\":\"iPhone 5\",\"type\":\"mobile\",\"platform\":\"iOS\",\"platformVersion\":\"8.1.3\",\"width\":640,\"height\":1136,\"canRotate\":true,\"orientation\":\"Portrait\",\"device-pixel-ratio\":2},{\"id\":\"iphone-6\",\"title\":\"iPhone 6\",\"type\":\"mobile\",\"platform\":\"iOS\",\"platformVersion\":\"8.1.3\",\"width\":750,\"height\":1334,\"canRotate\":true,\"orientation\":\"Portrait\",\"device-pixel-ratio\":2},{\"id\":\"iphone-6-plus\",\"title\":\"iPhone 6 Plus\",\"type\":\"mobile\",\"platform\":\"iOS\",\"platformVersion\":\"8.1.3\",\"width\":1080,\"height\":1920,\"canRotate\":true,\"orientation\":\"Portrait\",\"device-pixel-ratio\":3},{\"id\":\"galaxy-s4\",\"title\":\"Samsung Galaxy S4\",\"type\":\"mobile\",\"platform\":\"Android\",\"platformVersion\":\"4.4.2 KitKat\",\"width\":1080,\"height\":1920,\"canRotate\":true,\"orientation\":\"Portrait\",\"device-pixel-ratio\":3}],\"currentDeviceId\":\"native\",\"orientations\":[{\"id\":\"landscape\",\"title\":\"Landscape\"},{\"id\":\"portrait\",\"title\":\"Portrait\"}],\"currentDevice\":{\"id\":\"native\",\"title\":\"Native\",\"type\":\"screen\",\"width\":1280,\"height\":720,\"orientation\":\"Landscape\",\"platform\":\"Windows\",\"platformVersion\":\"10\",\"canRotate\":false}},\"pagedata\":{\"title\":\"EPAM | Software Engineering & Product Development Services  \",\"description\":\"Since 1993, we've helped customers digitally transform their businesses through our unique blend of world-class software engineering, design and consulting services.\",\"path\":\"/content/epam/en\",\"hits\":0,\"navTitle\":\"Home\",\"tags\":\"\",\"sitesection\":\"en\",\"_\":{\"raw-response\":{}}},\"segmentation\":{\"_\":{\"url\":\"https://www.epam.com/conf/epam/settings/wcm/segments.seg.js\"},\"segments\":[{\"label\":\"hu-l10n-gdpr\",\"link\":\"/conf/epam/settings/wcm/segments/hu-l10n-gdpr.html\",\"path\":\"/conf/epam/settings/wcm/segments/hu-l10n-gdpr\"},{\"label\":\"location-detected\",\"link\":\"/conf/epam/settings/wcm/segments/location-detected.html\",\"path\":\"/conf/epam/settings/wcm/segments/location-detected\"}],\"summary\":\"2 segments\"},\"geolocation\":{\"_\":{\"url\":\"https://www.epam.com/services/location/geolocation\",\"response-time\":1691788165277,\"raw-response\":{}},\"location\":{\"continent\":\"Europe\",\"continentCode\":\"EU\",\"country\":\"Hungary\",\"countryCode\":\"HU\",\"region\":\"Budapest\",\"regionCode\":\"BU\",\"city\":\"Budapest\",\"postalCode\":\"1052\",\"latitude\":\"47.56360\",\"longitude\":\"19.09470\"}},\"epam_gdpr\":{\"gdprLocation\":{\"countryCode\":\"HU\"}},\"job_search_country\":{\"jobLocation\":{\"countryName\":null}}}}"
+        },
+        {
+          "name": "_uetvid",
+          "value": "5ab4c160388b11eeaecfd363b29ec3db"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Wed, 04 Sep 2024 21:09:26 GMT"
+        },
+        {
+          "name": "_uetsid",
+          "value": "5ab45280388b11eeb5a9a737c4dd9127"
+        }
+      ]
+    }
+  ]
+}

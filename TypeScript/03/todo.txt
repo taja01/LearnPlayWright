@@ -1,0 +1,13 @@
+Step 1: Closing cookie overlay and saving the storageState
+
+Step 2: Writing the initial test scenario with usage of the storageState
+
+Step 3: Updating playwright configuration
+
+
+how to run:
+npx playwright test --headed
+
+for debug
+if state.json not exists -> first run that file
+then you can start the dubug
