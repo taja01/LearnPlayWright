@@ -22,5 +22,8 @@ npx playwright test exmaple
 npx playwright test --debug
     Runs teh test in debug mode
 
+npx playwright test example.spec.ts:10 --project=webkit --debug
+    Debug in specific file and browser
+
 npx playwright codegen
     Auto generate test with Codegen (your action will be recorded and you can copy the code)
