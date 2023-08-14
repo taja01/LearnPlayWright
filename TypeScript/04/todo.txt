@@ -1,0 +1,5 @@
+Creating a custom fixture
+
+You can define your own fixtures to prepare environment. test function imported from playwright has extend method where you can pass your fixture definitions.
+
+as an example lets create fixture that opens epam.com and closes cookie banner.
