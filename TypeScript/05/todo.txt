@@ -1,0 +1,4 @@
+Create POM
+
+Search for 'Test Automation'
+Then validate the number of results
