@@ -1,0 +1,13 @@
+Create diff environment - 
+wikipedia
+prod - en
+dev - hu
+
+install:
+npm install dotenv --save           
+
+change env:
+$env:ENV='prod'
+
+so far I can run debug mode like this:
+npx playwright test --project=chromium --debug
