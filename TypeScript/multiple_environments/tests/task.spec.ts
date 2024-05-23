@@ -8,7 +8,8 @@ const test = base.extend({
 });
 
 test.beforeEach(async ({ wikipedia }) => {
-  await wikipedia.goto(`https://${process.env.LanguageCode}.wiktionary.org/wiki/playwright`);
+  console.log(`https://${process.env.LanguageCode}.wiktionary.org/wiki/playwright`);
+  await wikipedia.goto('https://${process.env.LanguageCode}.wiktionary.org/wiki/playwright');
   console.log(process.env.LanguageCode)
 })
 
