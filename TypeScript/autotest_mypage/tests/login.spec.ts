@@ -2,9 +2,13 @@ import { test } from '@playwright/test';
 import { LoginPage } from '../src/loadable-pages/login-page';
 
 test.describe('Login functionality tests', () => {
-    test.beforeEach(async ({ page }) => {
-        const loginPage = new LoginPage(page);
+    let loginPage: LoginPage;
 
+    test.beforeEach(async ({ page }) => {
+        // Initialize and navigate with the login page object
+        if (!loginPage) {
+            loginPage = new LoginPage(page);
+        }
         await loginPage.goto('https://taja01.github.io/testpage/login.html');
         await loginPage.validatePageIsLoaded();
 
@@ -12,9 +16,7 @@ test.describe('Login functionality tests', () => {
         loginPage.clearConsoleMessages();
     });
 
-    test('Validate login page error messages', async ({ page }) => {
-        const loginPage = new LoginPage(page);
-
+    test('Validate login page error messages', async () => {
         await loginPage.emailInput.fillInputField('guest@guest.com');
         await loginPage.passwordInput.fillInputField('Test123!');
         await loginPage.loginButton.clickElement();
@@ -23,9 +25,7 @@ test.describe('Login functionality tests', () => {
         await loginPage.errorMessage.validateElementVisible();
     });
 
-    test('Validate login page error console', async ({ page }) => {
-        const loginPage = new LoginPage(page);
-
+    test('Validate login page error console', async () => {
         await loginPage.emailInput.fillInputField('user@user.com');
         await loginPage.passwordInput.fillInputField('user');
         await loginPage.loginButton.clickElement();
@@ -36,5 +36,10 @@ test.describe('Login functionality tests', () => {
         // Verify the expected error message appears in console
         const expectedErrorMessage = 'Oh boy you find me.';
         loginPage.validateConsoleErrorMessageAppeared(expectedErrorMessage);
+    });
+
+    // Optional cleanup after all tests
+    test.afterEach(async () => {
+        loginPage.clearConsoleMessages();
     });
 });
