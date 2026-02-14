@@ -16,6 +16,10 @@
         public int Workers { get; set; }
         public bool IgnoreHTTPSErrors { get; set; }
         public bool AcceptDownloads { get; set; }
+
+        public bool TrackConsoleErrors { get; set; } = true;
+        public bool FailTestOnConsoleError { get; set; } = false;
+        public List<string> IgnoreConsoleErrorPatterns { get; set; } = new();
     }
 
     public class BrowserContextOptions

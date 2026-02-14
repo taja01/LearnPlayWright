@@ -125,10 +125,54 @@ namespace MyTestAutomationFramework.Helpers
             Instance.Information(separator);
         }
 
-        // Timed Section
-        public static IDisposable TimedSection(string sectionName)
+        // Console Messages - Enhanced
+        public static void ConsoleMessage(string type, string message)
         {
-            return new TimedSectionLogger(sectionName);
+            var logLevel = type.ToLower() switch
+            {
+                "error" => LogEventLevel.Error,
+                "warning" => LogEventLevel.Warning,
+                _ => LogEventLevel.Debug
+            };
+
+            var emoji = type.ToLower() switch
+            {
+                "error" => "🔴",
+                "warning" => "🟡",
+                "log" => "💬",
+                _ => "ℹ️"
+            };
+
+            if (logLevel == LogEventLevel.Error)
+            {
+                Instance.Write(logLevel, "{Emoji} BROWSER CONSOLE ERROR: {Message}", emoji, message);
+            }
+            else if (logLevel == LogEventLevel.Warning)
+            {
+                Instance.Write(logLevel, "{Emoji} BROWSER CONSOLE WARNING: {Message}", emoji, message);
+            }
+            else
+            {
+                Instance.Debug("{Emoji} BROWSER CONSOLE [{Type}]: {Message}", emoji, type.ToUpper(), message);
+            }
+        }
+
+        // Console Error Summary
+        public static void ConsoleErrorSummary(List<string> errors)
+        {
+            if (errors.Count == 0) return;
+
+            var separator = new string('!', 80);
+            Instance.Error(separator);
+            Instance.Error("🔴 CONSOLE ERRORS DETECTED: {Count} error(s)", errors.Count);
+            Instance.Error(separator);
+
+            for (int i = 0; i < errors.Count; i++)
+            {
+                Instance.Error("  {Index}. {Error}", i + 1, errors[i]);
+            }
+
+            Instance.Error(separator);
         }
 
         // Performance Tracking
@@ -137,7 +181,7 @@ namespace MyTestAutomationFramework.Helpers
             Instance.Information("⏱️  PERFORMANCE: {Operation} took {Milliseconds}ms", operation, milliseconds);
         }
 
-        // Element Interactions (for AbstractWebElementContainer)
+        // Element Interactions
         public static void ElementAction(string element, string action)
         {
             Instance.Debug("🖱️  {Action} on {Element}", action, element);
@@ -155,9 +199,15 @@ namespace MyTestAutomationFramework.Helpers
             Instance.Debug("🌐 BROWSER {EventType}: {Details}", eventType, details);
         }
 
-        public static void ConsoleMessage(string type, string message)
+        public static void RequestFailed(string url, string? failure)
         {
-            Instance.Debug("💬 CONSOLE [{Type}]: {Message}", type, message);
+            Instance.Warning("⚠️  REQUEST FAILED: {Url} - {Failure}", url, failure ?? "Unknown reason");
+        }
+
+        // Timed Section
+        public static IDisposable TimedSection(string sectionName)
+        {
+            return new TimedSectionLogger(sectionName);
         }
 
         // Cleanup

@@ -17,6 +17,8 @@ namespace MyTestAutomationFrameWork.Tests
         protected SessionManager SessionManager { get; private set; } = null!;
 
         private readonly List<string> _testArtifacts = new();
+        private readonly List<string> _consoleErrors = new();
+        private readonly List<string> _consoleWarnings = new();
 
         [OneTimeSetUp]
         public async Task OneTimeSetUp()
@@ -30,28 +32,41 @@ namespace MyTestAutomationFrameWork.Tests
         {
             TestLogger.TestStart(TestContext.CurrentContext.Test.Name);
 
+            // Clear console errors/warnings for this test
+            _consoleErrors.Clear();
+            _consoleWarnings.Clear();
+
             Context = await BrowserManager.CreateContextAsync();
             Page = await Context.NewPageAsync();
             SessionManager = new SessionManager(Page);
 
             Page.SetDefaultTimeout(Config.PlaywrightSettings.Timeout);
 
-            // Listen to console messages
-            Page.Console += (_, msg) =>
+            // Listen to console messages with error tracking
+            if (Config.PlaywrightSettings.TrackConsoleErrors)
             {
-                TestLogger.ConsoleMessage(msg.Type, msg.Text);
-            };
+                Page.Console += OnConsoleMessage;
+            }
 
             // Listen to page errors
             Page.PageError += (_, error) =>
             {
-                TestLogger.Error($"Page Error: {error}");
+                var errorMessage = $"Page Error: {error}";
+                TestLogger.Error(errorMessage);
+                _consoleErrors.Add(errorMessage);
             };
 
             // Listen to request failures
             Page.RequestFailed += (_, request) =>
             {
-                TestLogger.Warning($"Request Failed: {request.Url} - {request.Failure}");
+                var failureMessage = $"{request.Url} - {request.Failure}";
+                TestLogger.RequestFailed(request.Url, request.Failure);
+
+                // Only track as error if not in ignore patterns
+                if (!ShouldIgnoreError(failureMessage))
+                {
+                    _consoleWarnings.Add($"Request Failed: {failureMessage}");
+                }
             };
 
             if (!string.IsNullOrEmpty(BaseUrl))
@@ -66,6 +81,37 @@ namespace MyTestAutomationFrameWork.Tests
         {
             var testFailed = TestContext.CurrentContext.Result.Outcome.Status
                 == NUnit.Framework.Interfaces.TestStatus.Failed;
+
+            // Show console error summary
+            if (_consoleErrors.Count > 0 || _consoleWarnings.Count > 0)
+            {
+                TestLogger.Section("BROWSER CONSOLE ISSUES DETECTED");
+
+                if (_consoleErrors.Count > 0)
+                {
+                    TestLogger.ConsoleErrorSummary(_consoleErrors);
+                }
+
+                if (_consoleWarnings.Count > 0)
+                {
+                    TestLogger.Warning($"Console Warnings: {_consoleWarnings.Count}");
+                    foreach (var warning in _consoleWarnings)
+                    {
+                        TestLogger.Warning($"  - {warning}");
+                    }
+                }
+
+                // Optionally fail test if console errors detected
+                if (Config.PlaywrightSettings.FailTestOnConsoleError && _consoleErrors.Count > 0)
+                {
+                    testFailed = true;
+                    Assert.Fail($"Test failed due to {_consoleErrors.Count} console error(s). See logs for details.");
+                }
+            }
+            else
+            {
+                TestLogger.Success("No console errors detected");
+            }
 
             if (testFailed)
             {
@@ -92,6 +138,35 @@ namespace MyTestAutomationFrameWork.Tests
             await BrowserManager.DisposeAsync();
         }
 
+        private void OnConsoleMessage(object? sender, IConsoleMessage msg)
+        {
+            var message = msg.Text;
+            var type = msg.Type;
+
+            TestLogger.ConsoleMessage(type, message);
+
+            // Track errors and warnings
+            if (type.ToLower() == "error" && !ShouldIgnoreError(message))
+            {
+                _consoleErrors.Add(message);
+            }
+            else if (type.ToLower() == "warning" && !ShouldIgnoreError(message))
+            {
+                _consoleWarnings.Add(message);
+            }
+        }
+
+        private bool ShouldIgnoreError(string errorMessage)
+        {
+            var ignorePatterns = Config.PlaywrightSettings.IgnoreConsoleErrorPatterns;
+
+            if (ignorePatterns == null || ignorePatterns.Count == 0)
+                return false;
+
+            return ignorePatterns.Any(pattern =>
+                errorMessage.Contains(pattern, StringComparison.OrdinalIgnoreCase));
+        }
+
         protected async Task CaptureFailureArtifactsAsync()
         {
             var testName = TestContext.CurrentContext.Test.Name;
@@ -111,6 +186,13 @@ namespace MyTestAutomationFrameWork.Tests
             // Page HTML
             var htmlPath = await CapturePageHtmlAsync($"{testName}_{timestamp}");
             _testArtifacts.Add(htmlPath);
+
+            // Save console errors to file
+            if (_consoleErrors.Count > 0)
+            {
+                var errorLogPath = await SaveConsoleErrorsAsync($"{testName}_{timestamp}");
+                _testArtifacts.Add(errorLogPath);
+            }
         }
 
         protected async Task<string> CaptureScreenshotAsync(string screenshotName)
@@ -159,6 +241,45 @@ namespace MyTestAutomationFrameWork.Tests
             return htmlPath;
         }
 
+        protected async Task<string> SaveConsoleErrorsAsync(string fileName)
+        {
+            var errorLogPath = Path.Combine(
+                Config.ReportingSettings.OutputFolder,
+                "console-errors",
+                $"{fileName}.txt");
+
+            Directory.CreateDirectory(Path.GetDirectoryName(errorLogPath)!);
+
+            var content = new System.Text.StringBuilder();
+            content.AppendLine($"Console Errors for Test: {TestContext.CurrentContext.Test.Name}");
+            content.AppendLine($"Time: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+            content.AppendLine(new string('=', 80));
+            content.AppendLine();
+
+            content.AppendLine($"ERRORS ({_consoleErrors.Count}):");
+            foreach (var error in _consoleErrors)
+            {
+                content.AppendLine($"  - {error}");
+            }
+
+            if (_consoleWarnings.Count > 0)
+            {
+                content.AppendLine();
+                content.AppendLine($"WARNINGS ({_consoleWarnings.Count}):");
+                foreach (var warning in _consoleWarnings)
+                {
+                    content.AppendLine($"  - {warning}");
+                }
+            }
+
+            await File.WriteAllTextAsync(errorLogPath, content.ToString());
+            TestContext.AddTestAttachment(errorLogPath);
+
+            TestLogger.Artifact("Console Errors", errorLogPath);
+
+            return errorLogPath;
+        }
+
         protected void CleanupTestArtifacts()
         {
             var daysToKeep = 7;
@@ -169,7 +290,8 @@ namespace MyTestAutomationFrameWork.Tests
             {
                 Config.ReportingSettings.ScreenshotFolder,
                 Config.ReportingSettings.VideoFolder,
-                Config.ReportingSettings.TracesFolder
+                Config.ReportingSettings.TracesFolder,
+                Path.Combine(Config.ReportingSettings.OutputFolder, "console-errors")
             })
             {
                 if (Directory.Exists(folder))
