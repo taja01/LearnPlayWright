@@ -14,7 +14,7 @@ namespace MySUT.PageObjects
             ButtonWithDelay = new(RootElement.Locator("#delayedButtonAttribute"), $"{propertyName} - Delayed Button");
             AddElementButton = new(RootElement.Locator("#extendListItemButton"), $"{propertyName} - Extend Button");
             RemoveElementButton = new(RootElement.Locator("#removeListItemButton"), $"{propertyName} - Remove Button");
-
+            Entry = new ElementList<WebElement>(RootElement.Locator("#dynamicList li"), locator => new WebElement(locator, $"{propertyName} - Entry"), $"{propertyName} - Entries");
         }
 
         public WebElement ButtonWithError { get; }
@@ -22,5 +22,7 @@ namespace MySUT.PageObjects
 
         public WebElement AddElementButton { get; }
         public WebElement RemoveElementButton { get; }
+
+        public ElementList<WebElement> Entry { get; }
     }
 }

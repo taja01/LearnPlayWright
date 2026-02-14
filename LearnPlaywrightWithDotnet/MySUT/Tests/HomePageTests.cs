@@ -47,7 +47,14 @@ namespace MySUT.Tests
             await _homePage!.ButtonsAccordion.AddElementButton.ClickAsync();
             await _homePage!.ButtonsAccordion.AddElementButton.ClickAsync();
 
+            var counter = await _homePage!.ButtonsAccordion.Entry.CountAsync();
+
+            Assert.That(counter, Is.EqualTo(3));
+
             await _homePage!.ButtonsAccordion.RemoveElementButton.ClickAsync();
+
+            counter = await _homePage!.ButtonsAccordion.Entry.CountAsync();
+            Assert.That(counter, Is.EqualTo(2));
         }
 
     }
