@@ -2,16 +2,10 @@
 
 namespace MyTestAutomationFramework.PageObjects
 {
-    public abstract class BasePage
+    public abstract class BasePage(IPage page)
     {
-        protected readonly IPage Page;
-        protected readonly IBrowserContext Context;
-
-        protected BasePage(IPage page)
-        {
-            Page = page;
-            Context = page.Context;
-        }
+        protected readonly IPage Page = page;
+        protected readonly IBrowserContext Context = page.Context;
 
         public virtual async Task<bool> IsLoadedAsync()
         {

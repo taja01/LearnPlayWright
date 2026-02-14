@@ -1,8 +1,10 @@
 ﻿using Microsoft.Playwright;
+using MyTestAutomationFramework.PageObjects;
 using MyTestAutomationFrameWork.Core;
+using System.Text.RegularExpressions;
 using static Microsoft.Playwright.Assertions;
 
-namespace MyTestAutomationFramework.PageObjects
+namespace MySUT.PageObjects
 {
     public class HomePage : BasePage
     {

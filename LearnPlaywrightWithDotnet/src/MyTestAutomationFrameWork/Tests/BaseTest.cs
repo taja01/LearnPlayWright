@@ -20,12 +20,15 @@ namespace MyTestAutomationFramework.Core
         [OneTimeSetUp]
         public async Task OneTimeSetUp()
         {
+            TestLogger.Info("Initializing browser for test suite");
             await BrowserManager.GetBrowserAsync();
         }
 
         [SetUp]
         public async Task BaseSetUp()
         {
+            TestLogger.TestStart(TestContext.CurrentContext.Test.Name);
+
             Context = await BrowserManager.CreateContextAsync();
             Page = await Context.NewPageAsync();
             SessionManager = new SessionManager(Page);
@@ -35,17 +38,24 @@ namespace MyTestAutomationFramework.Core
             // Listen to console messages
             Page.Console += (_, msg) =>
             {
-                TestContext.WriteLine($"[BROWSER {msg.Type.ToUpper()}]: {msg.Text}");
+                TestLogger.ConsoleMessage(msg.Type, msg.Text);
             };
 
             // Listen to page errors
             Page.PageError += (_, error) =>
             {
-                TestContext.WriteLine($"[PAGE ERROR]: {error}");
+                TestLogger.Error($"Page Error: {error}");
+            };
+
+            // Listen to request failures
+            Page.RequestFailed += (_, request) =>
+            {
+                TestLogger.Warning($"Request Failed: {request.Url} - {request.Failure}");
             };
 
             if (!string.IsNullOrEmpty(BaseUrl))
             {
+                TestLogger.Info($"Navigating to base URL: {BaseUrl}");
                 await Page.GotoAsync(BaseUrl);
             }
         }
@@ -58,6 +68,7 @@ namespace MyTestAutomationFramework.Core
 
             if (testFailed)
             {
+                TestLogger.Warning("Test failed - capturing artifacts");
                 await CaptureFailureArtifactsAsync();
             }
 
@@ -68,11 +79,15 @@ namespace MyTestAutomationFramework.Core
             }
 
             CleanupTestArtifacts();
+
+            var status = testFailed ? "FAILED" : "PASSED";
+            TestLogger.TestEnd(TestContext.CurrentContext.Test.Name, status);
         }
 
         [OneTimeTearDown]
         public async Task OneTimeTearDown()
         {
+            TestLogger.Info("Disposing browser for test suite");
             await BrowserManager.DisposeAsync();
         }
 
@@ -107,6 +122,8 @@ namespace MyTestAutomationFramework.Core
             await Page.ScreenshotAsync(new PageScreenshotOptions { Path = screenshotPath, FullPage = true });
             TestContext.AddTestAttachment(screenshotPath);
 
+            TestLogger.Screenshot(screenshotPath);
+
             return screenshotPath;
         }
 
@@ -118,6 +135,8 @@ namespace MyTestAutomationFramework.Core
 
             Directory.CreateDirectory(Config.ReportingSettings.TracesFolder);
             await Context.Tracing.StopAsync(new TracingStopOptions { Path = tracePath });
+
+            TestLogger.Artifact("Trace", tracePath);
 
             return tracePath;
         }
@@ -134,14 +153,16 @@ namespace MyTestAutomationFramework.Core
             await File.WriteAllTextAsync(htmlPath, html);
             TestContext.AddTestAttachment(htmlPath);
 
+            TestLogger.Artifact("HTML", htmlPath);
+
             return htmlPath;
         }
 
         protected void CleanupTestArtifacts()
         {
-            // Optional: Clean up old artifacts older than X days
             var daysToKeep = 7;
             var cutoffDate = DateTime.Now.AddDays(-daysToKeep);
+            var deletedCount = 0;
 
             foreach (var folder in new[]
             {
@@ -158,10 +179,23 @@ namespace MyTestAutomationFramework.Core
                         var fileInfo = new FileInfo(file);
                         if (fileInfo.CreationTime < cutoffDate)
                         {
-                            try { File.Delete(file); } catch { }
+                            try
+                            {
+                                File.Delete(file);
+                                deletedCount++;
+                            }
+                            catch (Exception ex)
+                            {
+                                TestLogger.Warning($"Failed to delete old artifact: {file} - {ex.Message}");
+                            }
                         }
                     }
                 }
+            }
+
+            if (deletedCount > 0)
+            {
+                TestLogger.Debug($"Cleaned up {deletedCount} old artifact(s) older than {daysToKeep} days");
             }
         }
     }

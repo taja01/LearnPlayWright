@@ -1,10 +1,11 @@
-﻿using MyTestAutomationFramework.API;
+﻿using MySUT.PageObjects;
+using MyTestAutomationFramework.API;
 using MyTestAutomationFramework.Core;
 using MyTestAutomationFramework.Helpers;
-using MyTestAutomationFramework.PageObjects;
+using System.Text.RegularExpressions;
 using static Microsoft.Playwright.Assertions;
 
-namespace MyTestAutomationFramework.Tests
+namespace MySUT.Tests
 {
     [TestFixture]
     public class HomePageTests : BaseTest
