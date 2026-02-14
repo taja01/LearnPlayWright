@@ -1,5 +1,6 @@
 ﻿using Microsoft.Playwright;
 using MyTestAutomationFramework.Config;
+using MyTestAutomationFramework.Helpers;
 
 namespace MyTestAutomationFramework.Core
 {
@@ -12,25 +13,37 @@ namespace MyTestAutomationFramework.Core
 
         protected IPage Page { get; private set; } = null!;
         protected IBrowserContext Context { get; private set; } = null!;
+        protected SessionManager SessionManager { get; private set; } = null!;
+
+        private readonly List<string> _testArtifacts = new();
 
         [OneTimeSetUp]
         public async Task OneTimeSetUp()
         {
-            // Browser is initialized once per test class
             await BrowserManager.GetBrowserAsync();
         }
 
         [SetUp]
         public async Task BaseSetUp()
         {
-            // Create new context and page for each test
             Context = await BrowserManager.CreateContextAsync();
             Page = await Context.NewPageAsync();
+            SessionManager = new SessionManager(Page);
 
-            // Set default timeout
             Page.SetDefaultTimeout(Config.PlaywrightSettings.Timeout);
 
-            // Navigate to base URL if configured
+            // Listen to console messages
+            Page.Console += (_, msg) =>
+            {
+                TestContext.WriteLine($"[BROWSER {msg.Type.ToUpper()}]: {msg.Text}");
+            };
+
+            // Listen to page errors
+            Page.PageError += (_, error) =>
+            {
+                TestContext.WriteLine($"[PAGE ERROR]: {error}");
+            };
+
             if (!string.IsNullOrEmpty(BaseUrl))
             {
                 await Page.GotoAsync(BaseUrl);
@@ -40,23 +53,21 @@ namespace MyTestAutomationFramework.Core
         [TearDown]
         public async Task BaseTearDown()
         {
-            // Capture screenshot on failure
-            if (TestContext.CurrentContext.Result.Outcome.Status == NUnit.Framework.Interfaces.TestStatus.Failed)
-            {
-                await CaptureScreenshotAsync($"{TestContext.CurrentContext.Test.Name}_failure");
+            var testFailed = TestContext.CurrentContext.Result.Outcome.Status
+                == NUnit.Framework.Interfaces.TestStatus.Failed;
 
-                if (Config.PlaywrightSettings.Trace != "off")
-                {
-                    await CaptureTraceAsync($"{TestContext.CurrentContext.Test.Name}_trace");
-                }
+            if (testFailed)
+            {
+                await CaptureFailureArtifactsAsync();
             }
 
-            // Close context after each test
             if (Context != null)
             {
                 await Context.CloseAsync();
                 await Context.DisposeAsync();
             }
+
+            CleanupTestArtifacts();
         }
 
         [OneTimeTearDown]
@@ -65,25 +76,93 @@ namespace MyTestAutomationFramework.Core
             await BrowserManager.DisposeAsync();
         }
 
-        protected async Task CaptureScreenshotAsync(string screenshotName)
+        protected async Task CaptureFailureArtifactsAsync()
+        {
+            var testName = TestContext.CurrentContext.Test.Name;
+            var timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+
+            // Screenshot
+            var screenshotPath = await CaptureScreenshotAsync($"{testName}_{timestamp}");
+            _testArtifacts.Add(screenshotPath);
+
+            // Trace
+            if (Config.PlaywrightSettings.Trace != "off")
+            {
+                var tracePath = await CaptureTraceAsync($"{testName}_{timestamp}");
+                _testArtifacts.Add(tracePath);
+            }
+
+            // Page HTML
+            var htmlPath = await CapturePageHtmlAsync($"{testName}_{timestamp}");
+            _testArtifacts.Add(htmlPath);
+        }
+
+        protected async Task<string> CaptureScreenshotAsync(string screenshotName)
         {
             var screenshotPath = Path.Combine(
                 Config.ReportingSettings.ScreenshotFolder,
-                $"{screenshotName}_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+                $"{screenshotName}.png");
 
             Directory.CreateDirectory(Config.ReportingSettings.ScreenshotFolder);
             await Page.ScreenshotAsync(new PageScreenshotOptions { Path = screenshotPath, FullPage = true });
             TestContext.AddTestAttachment(screenshotPath);
+
+            return screenshotPath;
         }
 
-        protected async Task CaptureTraceAsync(string traceName)
+        protected async Task<string> CaptureTraceAsync(string traceName)
         {
             var tracePath = Path.Combine(
                 Config.ReportingSettings.TracesFolder,
-                $"{traceName}_{DateTime.Now:yyyyMMdd_HHmmss}.zip");
+                $"{traceName}.zip");
 
             Directory.CreateDirectory(Config.ReportingSettings.TracesFolder);
             await Context.Tracing.StopAsync(new TracingStopOptions { Path = tracePath });
+
+            return tracePath;
+        }
+
+        protected async Task<string> CapturePageHtmlAsync(string htmlName)
+        {
+            var htmlPath = Path.Combine(
+                Config.ReportingSettings.OutputFolder,
+                "html",
+                $"{htmlName}.html");
+
+            Directory.CreateDirectory(Path.GetDirectoryName(htmlPath)!);
+            var html = await Page.ContentAsync();
+            await File.WriteAllTextAsync(htmlPath, html);
+            TestContext.AddTestAttachment(htmlPath);
+
+            return htmlPath;
+        }
+
+        protected void CleanupTestArtifacts()
+        {
+            // Optional: Clean up old artifacts older than X days
+            var daysToKeep = 7;
+            var cutoffDate = DateTime.Now.AddDays(-daysToKeep);
+
+            foreach (var folder in new[]
+            {
+                Config.ReportingSettings.ScreenshotFolder,
+                Config.ReportingSettings.VideoFolder,
+                Config.ReportingSettings.TracesFolder
+            })
+            {
+                if (Directory.Exists(folder))
+                {
+                    var files = Directory.GetFiles(folder);
+                    foreach (var file in files)
+                    {
+                        var fileInfo = new FileInfo(file);
+                        if (fileInfo.CreationTime < cutoffDate)
+                        {
+                            try { File.Delete(file); } catch { }
+                        }
+                    }
+                }
+            }
         }
     }
 }
