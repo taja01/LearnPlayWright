@@ -1,5 +1,5 @@
 ﻿using Microsoft.Playwright;
-using MyTestAutomationFramework.Config;
+using MyTestAutomationFrameWork.Config;
 
 namespace MyTestAutomationFramework.Core
 {

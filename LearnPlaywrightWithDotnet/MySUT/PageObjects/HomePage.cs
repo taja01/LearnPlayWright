@@ -1,6 +1,5 @@
 ﻿using Microsoft.Playwright;
 using MyTestAutomationFramework.PageObjects;
-using MyTestAutomationFrameWork.Core;
 using System.Text.RegularExpressions;
 using static Microsoft.Playwright.Assertions;
 
@@ -8,71 +7,24 @@ namespace MySUT.PageObjects
 {
     public class HomePage : BasePage
     {
-        // WebElements - Low-level access
-        public WebElement GetStartedButton { get; }
-        public WebElement SearchButton { get; }
-        public WebElement DocsLink { get; }
-        public WebElement ApiLink { get; }
-        public WebElement CommunityLink { get; }
+        public ButtonsAccordion ButtonsAccordion { get; }
+
 
         private readonly ILocator _rootElement;
 
         public HomePage(IPage page) : base(page)
         {
-            _rootElement = Page.Locator("body");
+            _rootElement = Page.Locator("[data-testid='main-page']");
 
-            // Initialize WebElements
-            GetStartedButton = new WebElement(Page.Locator("text=Get Started"), "Get Started Button");
-            SearchButton = new WebElement(Page.Locator("[aria-label='Search']"), "Search Button");
-            DocsLink = new WebElement(Page.Locator("text=Docs"), "Docs Link");
-            ApiLink = new WebElement(Page.Locator("text=API"), "API Link");
-            CommunityLink = new WebElement(Page.Locator("text=Community"), "Community Link");
+            ButtonsAccordion = new ButtonsAccordion(_rootElement.Locator("[data-testid='buttons']"), "Buttons accordion");
         }
 
         public override async Task<bool> IsLoadedAsync()
         {
             await base.IsLoadedAsync();
-            await Expect(Page).ToHaveTitleAsync(new Regex("Playwright"));
-            await GetStartedButton.ValidateElementVisibleAsync();
+            await Expect(Page).ToHaveTitleAsync(new Regex("Main Page"));
+            await ButtonsAccordion.ValidateElementVisibleAsync();
             return true;
-        }
-
-        // Business Methods - High-level page actions
-        public async Task NavigateToGetStartedAsync()
-        {
-            await GetStartedButton.ClickAsync();
-            await Expect(Page).ToHaveURLAsync(new Regex(".*intro"));
-        }
-
-        public async Task SearchForAsync(string searchTerm)
-        {
-            await SearchButton.ClickAsync();
-            await Page.Keyboard.TypeAsync(searchTerm);
-            await Page.Keyboard.PressAsync("Enter");
-        }
-
-        public async Task NavigateToDocsAsync()
-        {
-            await DocsLink.ClickAsync();
-            await Expect(Page).ToHaveURLAsync(new Regex(".*docs"));
-        }
-
-        public async Task NavigateToApiAsync()
-        {
-            await ApiLink.ClickAsync();
-        }
-
-        // Verification Methods
-        public async Task VerifyPageLoadedCorrectlyAsync()
-        {
-            await GetStartedButton.ValidateElementVisibleAsync();
-            await SearchButton.ValidateElementVisibleAsync();
-            await DocsLink.ValidateElementVisibleAsync();
-        }
-
-        public async Task<bool> HasGetStartedButtonAsync()
-        {
-            return await GetStartedButton.IsVisibleAsync();
         }
     }
 }

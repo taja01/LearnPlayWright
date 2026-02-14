@@ -8,7 +8,7 @@ namespace MyTestAutomationFrameWork.Core
         private readonly string _propertyName;
         protected readonly ILocator RootElement;
 
-        protected AbstractWebElementContainer(string propertyName, ILocator locator)
+        protected AbstractWebElementContainer(ILocator locator, string propertyName)
         {
             _propertyName = propertyName;
             RootElement = locator;

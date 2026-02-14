@@ -1,8 +1,9 @@
 ﻿using Microsoft.Playwright;
-using MyTestAutomationFramework.Config;
+using MyTestAutomationFramework.Core;
 using MyTestAutomationFramework.Helpers;
+using MyTestAutomationFrameWork.Config;
 
-namespace MyTestAutomationFramework.Core
+namespace MyTestAutomationFrameWork.Tests
 {
     [Parallelizable(ParallelScope.Self)]
     [TestFixture]

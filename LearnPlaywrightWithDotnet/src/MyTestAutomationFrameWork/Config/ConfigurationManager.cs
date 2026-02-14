@@ -15,8 +15,8 @@ namespace MyTestAutomationFrameWork.Config
 
             _configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("Config/appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"Config/appsettings.{environment}.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .Build();
         }
