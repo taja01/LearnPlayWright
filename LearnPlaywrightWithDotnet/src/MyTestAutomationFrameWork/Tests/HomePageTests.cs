@@ -1,5 +1,6 @@
 ﻿using MyTestAutomationFramework.API;
 using MyTestAutomationFramework.Core;
+using MyTestAutomationFramework.Helpers;
 using MyTestAutomationFramework.PageObjects;
 using static Microsoft.Playwright.Assertions;
 
@@ -14,14 +15,23 @@ namespace MyTestAutomationFramework.Tests
         [SetUp]
         public async Task SetUp()
         {
-            _homePage = new HomePage(Page);
+            TestLogger.TestStart(TestContext.CurrentContext.Test.Name); _homePage = new HomePage(Page);
             _mockHandler = new MockResponseHandler(Page);
             await _homePage.IsLoadedAsync();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            var status = TestContext.CurrentContext.Result.Outcome.Status ==
+                NUnit.Framework.Interfaces.TestStatus.Passed ? "PASSED" : "FAILED";
+            TestLogger.TestEnd(TestContext.CurrentContext.Test.Name, status);
         }
 
         [Test]
         public async Task VerifyHomePageLoads()
         {
+            TestLogger.Step("Checking if Home Page is loaded and Get Started button is visible");
             var hasGetStarted = await _homePage!.GetStartedButton.IsVisibleAsync();
             Assert.That(hasGetStarted, Is.True, "Get Started button should be visible");
         }
