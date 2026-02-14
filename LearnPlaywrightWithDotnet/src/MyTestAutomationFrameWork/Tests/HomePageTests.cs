@@ -22,14 +22,14 @@ namespace MyTestAutomationFramework.Tests
         [Test]
         public async Task VerifyHomePageLoads()
         {
-            var hasGetStarted = await _homePage!.HasGetStartedButtonAsync();
+            var hasGetStarted = await _homePage!.GetStartedButton.IsVisibleAsync();
             Assert.That(hasGetStarted, Is.True, "Get Started button should be visible");
         }
 
         [Test]
         public async Task NavigateToIntroPage()
         {
-            await _homePage!.ClickGetStartedAsync();
+            await _homePage!.GetStartedButton.ClickAsync();
             await Expect(Page).ToHaveURLAsync(new Regex(".*intro"));
         }
 
@@ -108,6 +108,18 @@ namespace MyTestAutomationFramework.Tests
 
             Assert.That(requestMade, Is.True, "API request should have been intercepted");
             Assert.That(requestUrl, Does.Contain("/users/taja01"));
+        }
+
+        [Test]
+        public async Task UserCanGetStarted()
+        {
+            // Test knows too much about page structure
+            await _homePage!.GetStartedButton.ValidateElementVisibleAsync();
+            await _homePage.GetStartedButton.AttributeValueEqualToAsync("href", "/docs/intro");
+            await _homePage.GetStartedButton.ClickAsync();
+            await Expect(Page).ToHaveURLAsync(new Regex(".*intro"));
+
+            // Lots of repetition across tests
         }
     }
 }
