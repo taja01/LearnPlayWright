@@ -1,0 +1,5 @@
+﻿pwsh bin/Debug/netX/playwright.ps1 install
+
+if you get an error like this: pwsh : The term 'pwsh' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+
+use powershell instead of pwsh, like this: powershell bin/Debug/netX/playwright.ps1 install
