@@ -5,7 +5,7 @@ using MyTestAutomationFrameWork.Config;
 
 namespace MyTestAutomationFrameWork.Tests
 {
-    [Parallelizable(ParallelScope.Self)]
+    [Parallelizable(ParallelScope.All)]
     [TestFixture]
     public class BaseTest
     {
@@ -16,27 +16,26 @@ namespace MyTestAutomationFrameWork.Tests
         protected IBrowserContext Context { get; private set; } = null!;
         protected SessionManager SessionManager { get; private set; } = null!;
 
+        // Each test class instance gets its own BrowserManager
+        private BrowserManager? _browserManager;
         private readonly List<string> _testArtifacts = new();
         private readonly List<string> _consoleErrors = new();
         private readonly List<string> _consoleWarnings = new();
-
-        [OneTimeSetUp]
-        public async Task OneTimeSetUp()
-        {
-            TestLogger.Info("Initializing browser for test suite");
-            await BrowserManager.GetBrowserAsync();
-        }
 
         [SetUp]
         public async Task BaseSetUp()
         {
             TestLogger.TestStart(TestContext.CurrentContext.Test.Name);
+            TestLogger.Info($"Test running on Thread: {Thread.CurrentThread.ManagedThreadId}");
 
             // Clear console errors/warnings for this test
             _consoleErrors.Clear();
             _consoleWarnings.Clear();
 
-            Context = await BrowserManager.CreateContextAsync();
+            // Create NEW browser instance for each test
+            _browserManager = new BrowserManager();
+
+            Context = await _browserManager.CreateContextAsync();
             Page = await Context.NewPageAsync();
             SessionManager = new SessionManager(Page);
 
@@ -62,7 +61,6 @@ namespace MyTestAutomationFrameWork.Tests
                 var failureMessage = $"{request.Url} - {request.Failure}";
                 TestLogger.RequestFailed(request.Url, request.Failure);
 
-                // Only track as error if not in ignore patterns
                 if (!ShouldIgnoreError(failureMessage))
                 {
                     _consoleWarnings.Add($"Request Failed: {failureMessage}");
@@ -101,11 +99,10 @@ namespace MyTestAutomationFrameWork.Tests
                     }
                 }
 
-                // Optionally fail test if console errors detected
                 if (Config.PlaywrightSettings.FailTestOnConsoleError && _consoleErrors.Count > 0)
                 {
                     testFailed = true;
-                    Assert.Fail($"Test failed due to {_consoleErrors.Count} console error(s). See logs for details.");
+                    Assert.Fail($"Test failed due to {_consoleErrors.Count} console error(s).");
                 }
             }
             else
@@ -119,23 +116,23 @@ namespace MyTestAutomationFrameWork.Tests
                 await CaptureFailureArtifactsAsync();
             }
 
+            // Close and dispose browser context
             if (Context != null)
             {
                 await Context.CloseAsync();
                 await Context.DisposeAsync();
             }
 
+            // Dispose browser instance for this test
+            if (_browserManager != null)
+            {
+                await _browserManager.DisposeAsync();
+            }
+
             CleanupTestArtifacts();
 
             var status = testFailed ? "FAILED" : "PASSED";
             TestLogger.TestEnd(TestContext.CurrentContext.Test.Name, status);
-        }
-
-        [OneTimeTearDown]
-        public async Task OneTimeTearDown()
-        {
-            TestLogger.Info("Disposing browser for test suite");
-            await BrowserManager.DisposeAsync();
         }
 
         private void OnConsoleMessage(object? sender, IConsoleMessage msg)
@@ -145,7 +142,6 @@ namespace MyTestAutomationFrameWork.Tests
 
             TestLogger.ConsoleMessage(type, message);
 
-            // Track errors and warnings
             if (type.ToLower() == "error" && !ShouldIgnoreError(message))
             {
                 _consoleErrors.Add(message);
@@ -171,26 +167,27 @@ namespace MyTestAutomationFrameWork.Tests
         {
             var testName = TestContext.CurrentContext.Test.Name;
             var timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            var threadId = Thread.CurrentThread.ManagedThreadId;
 
             // Screenshot
-            var screenshotPath = await CaptureScreenshotAsync($"{testName}_{timestamp}");
+            var screenshotPath = await CaptureScreenshotAsync($"{testName}_{threadId}_{timestamp}");
             _testArtifacts.Add(screenshotPath);
 
             // Trace
             if (Config.PlaywrightSettings.Trace != "off")
             {
-                var tracePath = await CaptureTraceAsync($"{testName}_{timestamp}");
+                var tracePath = await CaptureTraceAsync($"{testName}_{threadId}_{timestamp}");
                 _testArtifacts.Add(tracePath);
             }
 
             // Page HTML
-            var htmlPath = await CapturePageHtmlAsync($"{testName}_{timestamp}");
+            var htmlPath = await CapturePageHtmlAsync($"{testName}_{threadId}_{timestamp}");
             _testArtifacts.Add(htmlPath);
 
             // Save console errors to file
             if (_consoleErrors.Count > 0)
             {
-                var errorLogPath = await SaveConsoleErrorsAsync($"{testName}_{timestamp}");
+                var errorLogPath = await SaveConsoleErrorsAsync($"{testName}_{threadId}_{timestamp}");
                 _testArtifacts.Add(errorLogPath);
             }
         }
@@ -253,6 +250,7 @@ namespace MyTestAutomationFrameWork.Tests
             var content = new System.Text.StringBuilder();
             content.AppendLine($"Console Errors for Test: {TestContext.CurrentContext.Test.Name}");
             content.AppendLine($"Time: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+            content.AppendLine($"Thread: {Thread.CurrentThread.ManagedThreadId}");
             content.AppendLine(new string('=', 80));
             content.AppendLine();
 

@@ -7,7 +7,7 @@ namespace MySUT.Tests
 {
     [TestFixture]
     [Parallelizable(ParallelScope.All)]
-    public class HomePageTests : BaseTest
+    public class HomePageTests3 : BaseTest
     {
         private HomePage? _homePage;
         private MockResponseHandler? _mockHandler;
@@ -31,15 +31,17 @@ namespace MySUT.Tests
 
             await _homePage!.ButtonsAccordion.AddElementButton.ClickAsync();
             await _homePage!.ButtonsAccordion.AddElementButton.ClickAsync();
+            await _homePage!.ButtonsAccordion.AddElementButton.ClickAsync();
+            await _homePage!.ButtonsAccordion.AddElementButton.ClickAsync();
 
             var counter = await _homePage!.ButtonsAccordion.Entry.CountAsync();
 
-            Assert.That(counter, Is.EqualTo(3));
+            Assert.That(counter, Is.EqualTo(5));
 
             await _homePage!.ButtonsAccordion.RemoveElementButton.ClickAsync();
 
             counter = await _homePage!.ButtonsAccordion.Entry.CountAsync();
-            Assert.That(counter, Is.EqualTo(2));
+            Assert.That(counter, Is.EqualTo(4));
         }
 
     }

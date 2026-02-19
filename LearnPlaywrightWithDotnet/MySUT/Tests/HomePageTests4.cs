@@ -6,8 +6,8 @@ using MyTestAutomationFrameWork.Tests;
 namespace MySUT.Tests
 {
     [TestFixture]
-    [Parallelizable(ParallelScope.All)]
-    public class HomePageTests : BaseTest
+    [Parallelizable(ParallelScope.Fixtures)]
+    public class HomePageTests4 : BaseTest
     {
         private HomePage? _homePage;
         private MockResponseHandler? _mockHandler;
@@ -31,16 +31,40 @@ namespace MySUT.Tests
 
             await _homePage!.ButtonsAccordion.AddElementButton.ClickAsync();
             await _homePage!.ButtonsAccordion.AddElementButton.ClickAsync();
+            await _homePage!.ButtonsAccordion.AddElementButton.ClickAsync();
+            await _homePage!.ButtonsAccordion.AddElementButton.ClickAsync();
+            await _homePage!.ButtonsAccordion.AddElementButton.ClickAsync();
+            await _homePage!.ButtonsAccordion.AddElementButton.ClickAsync();
 
             var counter = await _homePage!.ButtonsAccordion.Entry.CountAsync();
 
-            Assert.That(counter, Is.EqualTo(3));
+            Assert.That(counter, Is.EqualTo(7));
 
             await _homePage!.ButtonsAccordion.RemoveElementButton.ClickAsync();
 
             counter = await _homePage!.ButtonsAccordion.Entry.CountAsync();
-            Assert.That(counter, Is.EqualTo(2));
+            Assert.That(counter, Is.EqualTo(6));
         }
 
+
+        [Test]
+        public async Task ElementsAddRemoveAndCounts2()
+        {
+            TestLogger.Step("Check lists");
+            await _homePage!.ButtonsAccordion.AddElementButton.ClickAsync();
+
+            await _homePage!.ButtonsAccordion.ButtonWithError.ClickAsync();
+
+
+
+            var counter = await _homePage!.ButtonsAccordion.Entry.CountAsync();
+
+            Assert.That(counter, Is.EqualTo(1));
+
+            await _homePage!.ButtonsAccordion.RemoveElementButton.ClickAsync();
+
+            counter = await _homePage!.ButtonsAccordion.Entry.CountAsync();
+            Assert.That(counter, Is.EqualTo(0));
+        }
     }
 }

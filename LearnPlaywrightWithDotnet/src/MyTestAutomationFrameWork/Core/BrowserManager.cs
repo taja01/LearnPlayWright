@@ -5,28 +5,27 @@ namespace MyTestAutomationFramework.Core
 {
     public class BrowserManager
     {
-        private static IPlaywright? _playwright;
-        private static IBrowser? _browser;
-        private static readonly object _lock = new();
+        private IPlaywright? _playwright;
+        private IBrowser? _browser;
+        private readonly ConfigurationManager _config;
 
-        public static async Task<IBrowser> GetBrowserAsync()
+        public BrowserManager()
+        {
+            _config = ConfigurationManager.Instance;
+        }
+
+        public async Task<IBrowser> GetBrowserAsync()
         {
             if (_browser == null)
             {
-                lock (_lock)
-                {
-                    if (_browser == null)
-                    {
-                        InitializeBrowserAsync().Wait();
-                    }
-                }
+                await InitializeBrowserAsync();
             }
             return _browser!;
         }
 
-        private static async Task InitializeBrowserAsync()
+        private async Task InitializeBrowserAsync()
         {
-            var config = ConfigurationManager.Instance.PlaywrightSettings;
+            var config = _config.PlaywrightSettings;
             _playwright = await Playwright.CreateAsync();
 
             var launchOptions = new BrowserTypeLaunchOptions
@@ -34,7 +33,7 @@ namespace MyTestAutomationFramework.Core
                 Headless = config.Headless,
                 SlowMo = config.SlowMo,
                 Timeout = config.Timeout,
-                Args = ["--start-maximized"]
+                Args = ["--start-maximized", "--disable-blink-features=AutomationControlled"]
             };
 
             _browser = config.BrowserType.ToLower() switch
@@ -45,12 +44,12 @@ namespace MyTestAutomationFramework.Core
             };
         }
 
-        public static async Task<IBrowserContext> CreateContextAsync(BrowserNewContextOptions? options = null)
+        public async Task<IBrowserContext> CreateContextAsync(BrowserNewContextOptions? options = null)
         {
             var browser = await GetBrowserAsync();
-            var config = ConfigurationManager.Instance.PlaywrightSettings;
-            var contextConfig = ConfigurationManager.Instance.BrowserContextOptions;
-            var reportingConfig = ConfigurationManager.Instance.ReportingSettings;
+            var config = _config.PlaywrightSettings;
+            var contextConfig = _config.BrowserContextOptions;
+            var reportingConfig = _config.ReportingSettings;
 
             options ??= new BrowserNewContextOptions
             {
@@ -89,7 +88,7 @@ namespace MyTestAutomationFramework.Core
             return context;
         }
 
-        public static async Task DisposeAsync()
+        public async Task DisposeAsync()
         {
             if (_browser != null)
             {

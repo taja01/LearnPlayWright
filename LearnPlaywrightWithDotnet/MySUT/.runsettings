@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <!-- NUnit Configuration -->
+  <NUnit>
+    <!-- Number of workers for parallel test execution -->
+    <NumberOfTestWorkers>6</NumberOfTestWorkers>
+    
+    <!-- Where parallel execution is enabled -->
+    <DefaultTestNamePattern>{m}{a}</DefaultTestNamePattern>
+    
+    <!-- Timeout for each test (in milliseconds) -->
+    <DefaultTimeout>60000</DefaultTimeout>
+    
+    <!-- Random seed for test execution order -->
+    <RandomSeed>1234</RandomSeed>
+  </NUnit>
+
+  <!-- Playwright Configuration -->
+  <Playwright>
+    <BrowserName>chromium</BrowserName>
+    <LaunchOptions>
+      <Headless>false</Headless>
+      <SlowMo>0</SlowMo>
+    </LaunchOptions>
+  </Playwright>
+
+  <!-- Test Execution Configuration -->
+  <RunConfiguration>
+    <!-- Maximum number of test execution threads -->
+    <MaxCpuCount>4</MaxCpuCount>
+    
+    <!-- Parallel execution -->
+    <ParallelizeTestCollections>true</ParallelizeTestCollections>
+    
+    <!-- Results directory -->
+    <ResultsDirectory>.\TestResults</ResultsDirectory>
+    
+    <!-- Target platform -->
+    <TargetPlatform>x64</TargetPlatform>
+    
+    <!-- Test timeout -->
+    <TestSessionTimeout>120000</TestSessionTimeout>
+  </RunConfiguration>
+
+  <!-- Logging -->
+  <LoggerRunSettings>
+    <Loggers>
+      <Logger friendlyName="console" enabled="True">
+        <Configuration>
+          <Verbosity>detailed</Verbosity>
+        </Configuration>
+      </Logger>
+    </Loggers>
+  </LoggerRunSettings>
+</RunSettings>
