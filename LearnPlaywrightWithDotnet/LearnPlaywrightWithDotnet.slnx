@@ -1,4 +1,4 @@
 <Solution>
-  <Project Path="MySUT/MySUT.csproj" Id="08b40593-f68d-4551-a6da-b32e090e04ce" />
   <Project Path="src/MyTestAutomationFrameWork/MyTestAutomationFrameWork.csproj" Id="2656cbab-ec46-4f04-8562-a71edc5ae8c2" />
+  <Project Path="tests/MySUT/MySUT.csproj" />
 </Solution>
