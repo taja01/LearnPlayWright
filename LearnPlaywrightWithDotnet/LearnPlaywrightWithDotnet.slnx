@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="src/MyTestAutomationFrameWork/MyTestAutomationFrameWork.csproj" Id="2656cbab-ec46-4f04-8562-a71edc5ae8c2" />
   <Project Path="tests/MySUT/MySUT.csproj" />
+  <Project Path="tests/ReqnRollExample/ReqnRollExample.csproj" Id="2dcddda6-8e76-4371-bdd6-dc899f4ab08c" />
 </Solution>

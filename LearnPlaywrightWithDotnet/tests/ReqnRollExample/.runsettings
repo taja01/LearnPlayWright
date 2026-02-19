@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <!-- NUnit Configuration -->
+  <NUnit>
+    <!-- Number of workers for parallel test execution -->
+    <NumberOfTestWorkers>4</NumberOfTestWorkers>
+
+    <!-- Where to run tests in parallel -->
+    <DefaultTestNamePattern>{m}{a}</DefaultTestNamePattern>
+
+    <!-- Random seed for test execution order -->
+    <RandomSeed>1234</RandomSeed>
+  </NUnit>
+
+  <!-- Playwright Configuration -->
+  <Playwright>
+    <BrowserName>chromium</BrowserName>
+    <LaunchOptions>
+      <Headless>false</Headless>
+      <SlowMo>0</SlowMo>
+    </LaunchOptions>
+  </Playwright>
+
+  <!-- Test Execution Configuration -->
+  <RunConfiguration>
+    <!-- Maximum number of test execution threads -->
+    <MaxCpuCount>4</MaxCpuCount>
+
+    <!-- Parallel execution -->
+    <ParallelizeTestCollections>true</ParallelizeTestCollections>
+
+    <!-- Results directory -->
+    <ResultsDirectory>.\TestResults</ResultsDirectory>
+
+    <!-- Target platform -->
+    <TargetPlatform>x64</TargetPlatform>
+  </RunConfiguration>
+
+  <!-- Logging -->
+  <LoggerRunSettings>
+    <Loggers>
+      <Logger friendlyName="console" enabled="True">
+        <Configuration>
+          <Verbosity>detailed</Verbosity>
+        </Configuration>
+      </Logger>
+    </Loggers>
+  </LoggerRunSettings>
+</RunSettings>
